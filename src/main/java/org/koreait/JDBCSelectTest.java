@@ -2,7 +2,7 @@ package org.koreait;
 
 import java.sql.*;
 
-public class JDBCInsertTest {
+public class JDBCSelectTest {
     public static void main(String[] args) {
         Connection conn = null;
         PreparedStatement pstmt = null;
