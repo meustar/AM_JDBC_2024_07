@@ -13,9 +13,12 @@ public class App {
         this.sc = sc;
     }
 
-    public void run() {
+    public void run() throws SQLException {
         System.out.println("프로그램 실행");
         int lastArticleId = 0;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
 
         List<Article> articles = new ArrayList<>();
 
@@ -48,9 +51,6 @@ public class App {
                 System.out.println(id + "번 글이 작성되었습니다.");
 
 
-                Connection conn = null;
-                PreparedStatement pstmt = null;
-
                 try {
                     Class.forName("org.mariadb.jdbc.Driver");
                     String url = "jdbc:mariadb://127.0.0.1:3306/AM_JDBC_2024_07?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul";
@@ -78,15 +78,15 @@ public class App {
                     System.out.println("에러 : " + e);
                 } finally {
                     try {
-                        if (conn != null && !conn.isClosed()) {
-                            conn.close();
+                        if (pstmt != null && !pstmt.isClosed()) {
+                            pstmt.close();
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
                     try {
-                        if (pstmt != null && !pstmt.isClosed()) {
-                            pstmt.close();
+                        if (conn != null && !conn.isClosed()) {
+                            conn.close();
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -95,14 +95,37 @@ public class App {
 
 
             } else if (cmd.equals("article list")) {
+                ResultSet rs = null;
+                rs = pstmt.executeQuery("select * from article");
+
                 System.out.println("== list ==");
                 if (articles.size() == 0 ) {
                     System.out.println("게시글이 없습니다");
                     continue;
                 }
-                System.out.println("   번호   //        제목         ");
+                System.out.println("   번호   //        제목         //          내용        ");
                 for (Article article : articles) {
-                    System.out.printf("   %d   //        %d         ", article.getId(), article.getTitle());
+//                    System.out.printf("   %d   //        %d         ", article.getId(), article.getTitle());
+                }
+                try {
+                    while (rs.next()) {
+                        Integer id = rs.getInt("id");
+                        String regDate = rs.getString("regDate");
+                        String updateDate = rs.getString("updateDate");
+                        String title = rs.getString("title");
+                        String content = rs.getString("content");
+                        System.out.printf("   번호   //        제목         //          내용        ", rs.getInt("id"), rs.getString("title"), rs.getString("content"));
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                    try {
+                        if (rs != null && !rs.isClosed()) {
+                            rs.close();
+                        }
+                    } catch (SQLException ex) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
         }
