@@ -7,6 +7,10 @@ import java.util.Scanner;
 
 public class App {
 
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
     private Scanner sc;
 
     public App(Scanner sc) {
@@ -17,8 +21,6 @@ public class App {
         System.out.println("프로그램 실행");
         int lastArticleId = 0;
 
-        Connection conn = null;
-        PreparedStatement pstmt = null;
 
         List<Article> articles = new ArrayList<>();
 
@@ -93,11 +95,7 @@ public class App {
                     }
                 }
 
-
             } else if (cmd.equals("article list")) {
-                ResultSet rs = null;
-                rs = pstmt.executeQuery("select * from article");
-
                 System.out.println("== list ==");
                 if (articles.size() == 0 ) {
                     System.out.println("게시글이 없습니다");
@@ -105,30 +103,9 @@ public class App {
                 }
                 System.out.println("   번호   //        제목         //          내용        ");
                 for (Article article : articles) {
-//                    System.out.printf("   %d   //        %d         ", article.getId(), article.getTitle());
-                }
-                try {
-                    while (rs.next()) {
-                        Integer id = rs.getInt("id");
-                        String regDate = rs.getString("regDate");
-                        String updateDate = rs.getString("updateDate");
-                        String title = rs.getString("title");
-                        String content = rs.getString("content");
-                        System.out.printf("   번호   //        제목         //          내용        ", rs.getInt("id"), rs.getString("title"), rs.getString("content"));
-                    }
-                } catch (Exception e){
-                    e.printStackTrace();
-                    try {
-                        if (rs != null && !rs.isClosed()) {
-                            rs.close();
-                        }
-                    } catch (SQLException ex) {
-                        e.printStackTrace();
-                    }
-
+                    System.out.printf("   %d   //        %d         ", article.getId(), article.getTitle());
                 }
             }
         }
-
     }
 }
