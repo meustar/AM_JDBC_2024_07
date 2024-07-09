@@ -29,4 +29,5 @@ title = CONCAT('제목', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
 content = CONCAT('내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
 
 SELECT *
-FROM article;
+FROM article
+ORDER BY id DESC;

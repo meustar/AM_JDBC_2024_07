@@ -8,7 +8,7 @@ public class JDBCSelectTest {
     public static void main(String[] args) {
         Connection conn = null;
         PreparedStatement pstmt = null;
-        ResultSet rs = null;            // 결과를 담을 ResultSet.(DB에 명령할 해당 SQL문의 결과를 rs에 담는다. ex> select 한 table 통째로.
+        ResultSet rs = null;            // 결과를 담을 ResultSet.(DB에 명령할 해당 SQL문의 결과를 rs에 담는다. ex> select 한 table 통째로 담기.
 
         List<Article> list = new ArrayList<>();
 
