@@ -1,16 +1,12 @@
-package org.koreait;
+package org.koreait.DBtest;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
-public class JDBCSelectTest {
+public class JDBCInsertTest {
     public static void main(String[] args) {
         Connection conn = null;
         PreparedStatement pstmt = null;
-        ResultSet rs = null;            // 결과를 담을 ResultSet.(DB에 명령할 해당 SQL문의 결과를 rs에 담는다. ex> select 한 table 통째로 담기.
-
-        List<Article> list = new ArrayList<>();
+        ResultSet rs = null;
 
         try {
             Class.forName("org.mariadb.jdbc.Driver");
@@ -18,32 +14,29 @@ public class JDBCSelectTest {
             conn = DriverManager.getConnection(url, "root", "");
             System.out.println("연결 성공");
 
-            String sql = "SELECT * ";
-                sql += "FROM article ";
-                sql += "ORDER BY id DESC";
+            String sql = "INSERT INTO article ";
+            sql += "SET regDate = NOW(),";
+            sql += "updateDate = NOW(),";
+            sql += "title = CONCAT('제목', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),";
+            sql += "content = CONCAT('내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));";
 
             System.out.println(sql);
 
             pstmt = conn.prepareStatement(sql);
 
-            rs = pstmt.executeQuery(sql);
+            int affectedRows = pstmt.executeUpdate();
+
+            System.out.println("affected rows : " + affectedRows);
+
+            rs = pstmt.executeQuery("select * from article");
 
             while (rs.next()) {
-                int id = rs.getInt("id");
+                Integer id = rs.getInt("id");
                 String regDate = rs.getString("regDate");
                 String updateDate = rs.getString("updateDate");
                 String title = rs.getString("title");
                 String content = rs.getString("content");
-                Article article = new Article(id, regDate, updateDate, title, content);
-                list.add(article);
-            }
-
-            for (int i = 0; i < list.size(); i++) {
-                System.out.println("번호: " + list.get(i).getId());
-                System.out.println("작성날짜: " + list.get(i).getRegDate());
-                System.out.println("수정날짜: " + list.get(i).getUpdateDate());
-                System.out.println("제목: " + list.get(i).getTitle());
-                System.out.println("내용: " + list.get(i).getContent());
+                System.out.println(id + " " + regDate + " " + updateDate + " " + title + " " + content);
             }
 
         } catch (ClassNotFoundException e) {
@@ -51,10 +44,9 @@ public class JDBCSelectTest {
         } catch (SQLException e) {
             System.out.println("에러 : " + e);
         } finally {
-
             try {
-                if (rs != null && !rs.isClosed()) {
-                    rs.close();
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -67,8 +59,8 @@ public class JDBCSelectTest {
                 e.printStackTrace();
             }
             try {
-                if (conn != null && !conn.isClosed()) {
-                    conn.close();
+                if (rs != null && !rs.isClosed()) {
+                    rs.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

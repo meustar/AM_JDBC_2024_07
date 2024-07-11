@@ -11,17 +11,11 @@ public class App {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
-    private Scanner sc;
-
-    public App(Scanner sc) {
-        this.sc = sc;
-    }
 
     public void run() throws SQLException {
         System.out.println("프로그램 실행");
+        Scanner sc = new Scanner(System.in);
         int lastArticleId = 0;
-
-//        List<Article> articles = new ArrayList<>();
 
         while (true) {
             System.out.print("명령어: ");
@@ -44,13 +38,9 @@ public class App {
                 System.out.print("content: ");
                 String content = sc.nextLine();
 
-//                Article aricle = new Article(id, title, content);
-
-//                System.out.println(aricle);
                 lastArticleId++;
 
                 System.out.println(id + "번 글이 작성되었습니다.");
-
 
                 try {
                     Class.forName("org.mariadb.jdbc.Driver");
@@ -71,7 +61,6 @@ public class App {
                     int affectedRows = pstmt.executeUpdate();
 
                     System.out.println("affected rows : " + affectedRows);
-
 
                 } catch (ClassNotFoundException e) {
                     System.out.println("드라이버 로딩 실패" + e);
@@ -176,26 +165,6 @@ public class App {
                     System.out.printf("   %d   //        %s        //              %s         \n", article.getId(), article.getTitle(),article.getContent());
                 }
 
-//            } else if (cmd.startsWith("article delete")) {
-//                System.out.println("== delete ==");
-//
-//                int id = Integer.parseInt(cmd.split(" ")[2]);
-//
-//                Article foundArticle = null;
-//
-//                for (Article article : articles) {
-//                    if (article.getId() == id) {
-//                        foundArticle = article;
-//                        break;
-//                    }
-//                }
-//                if (foundArticle == null) {
-//                    System.out.println("해당 게시글은 없습니다.");
-//                    continue;
-//                }
-//                articles.remove(foundArticle);
-//                System.out.println(id + "번 게시글이 삭제되었습니다.");
-//
             } else if (cmd.startsWith("article modify")) {
                 int id = 0;
 
@@ -262,33 +231,7 @@ public class App {
                 }
                 System.out.println(id + "번 글이 수정되었습니다.");
 
-//                Article foundArticle = null;          // DB가 없을때 ArrayList를 DB 저장소로 쓰였을때, 찾고자하는 id를 순회할때 쓰던 방법. => DB를 사용하고 부터는 select id로 찾을수 있다.
-//
-//                for (Article article : articles) {
-//                    if (article.getId() == id) {
-//                        foundArticle = article;
-//                        break;
-//                    }
-//                }
-//                if (foundArticle == null) {
-//                    System.out.println("해당 게시글은 없습니다.");
-//                    continue;
-//                }
-//                System.out.println("기존 제목 : " + foundArticle.getTitle());
-//                System.out.println("기존 내용 : " + foundArticle.getContent());
-//                System.out.print("새 제목 : ");
-//                String newTitle = sc.nextLine();
-//                System.out.print("새 내목 : ");
-//                String newContent = sc.nextLine();
-//
-//                foundArticle.setTitle(newTitle);
-//                foundArticle.setContent(newContent);
-//                System.out.println(id + "번 게시글이 수정 되었습니다.");
-//            } else {
-//                System.out.println("사용할 수 없는 명령어입니다.");
             }
-
-
         }
     }
 }
