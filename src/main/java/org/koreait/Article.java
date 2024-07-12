@@ -1,5 +1,7 @@
 package org.koreait;
 
+import java.util.Map;
+
 public class Article {
     private int id;
     private String regDate;
@@ -13,6 +15,15 @@ public class Article {
         this.updateDate = updateDate;
         this.title = title;
         this.content = content;
+    }
+
+    public Article(Map<String, Object> articleMap) {
+        this.id = (int) articleMap.get("id");
+        this.regDate = (String) articleMap.get("regDate");
+        this.updateDate = (String) articleMap.get("updateDate");
+        this.title = (String) articleMap.get("title");
+        this.content = (String) articleMap.get("content");
+
     }
 
     public String getRegDate() {
