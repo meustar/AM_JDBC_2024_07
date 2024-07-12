@@ -5,7 +5,6 @@ import org.koreait.util.SecSql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,38 +123,20 @@ public class App {
             System.out.print("새 내용 : ");
             String content = sc.nextLine();
 
-            PreparedStatement pstmt = null;
+            SecSql sql = new SecSql();
+            sql.append("UPDATE article");
+            sql.append("SET updateDate = NOW()");
 
-            try {
-                String sql = "UPDATE article ";
-                sql += "SET updateDate = NOW(),";
-                if (title.length() > 0) {
-                    sql += " , title = '" + title + "'";
-                }
-                if (content.length() > 0) {
-                    sql += " , content = '" + content + "'";
-                }
-
-                sql += " WHERE id = " + id + ";";
-
-                System.out.println(sql);
-
-                pstmt = conn.prepareStatement(sql);
-
-                pstmt.executeUpdate();
-
-            } catch (SQLException e) {
-                System.out.println("에러 4 : " + e);
-            } finally {
-                try {
-                    if (pstmt != null && !pstmt.isClosed()) {
-                        pstmt.close();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
+            if(title.length() > 0) {
+                sql.append(",title = ?", title);
             }
+            if(content.length() > 0) {
+                sql.append(",content = ?", content);
+            }
+            sql.append("WHERE id = ?", id);
+
+            DBUtil.update(conn, sql);
+
             System.out.println(id + "번 글이 수정되었습니다.");
 
         }
