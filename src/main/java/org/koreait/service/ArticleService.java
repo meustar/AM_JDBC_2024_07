@@ -1,6 +1,6 @@
 package org.koreait.service;
 
-import org.koreait.Article;
+import org.koreait.dto.Article;
 import org.koreait.dao.ArticleDao;
 
 import java.sql.Connection;

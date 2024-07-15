@@ -2,18 +2,19 @@ package org.koreait;
 
 import org.koreait.controller.ArticleController;
 import org.koreait.controller.MemberController;
-import org.koreait.util.DBUtil;
-import org.koreait.util.SecSql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class App {
+
+    Scanner sc;
+
+    public App(Scanner sc) {
+        this.sc = sc;
+    }
 
     public void run() {
         System.out.println("== 프로그램 실행 ==");
@@ -73,6 +74,10 @@ public class App {
 
         if (cmd.equals("member join")) {
             memberController.doJoin();
+        } else if (cmd.equals("member login")) {
+            memberController.login();
+        } else if (cmd.equals("member logout")) {
+            memberController.logout();
         } else if (cmd.equals("article write")) {
             articleController.doWrite();
         } else if (cmd.equals("article list")) {

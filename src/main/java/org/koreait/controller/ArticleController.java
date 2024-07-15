@@ -1,9 +1,7 @@
 package org.koreait.controller;
 
-import org.koreait.Article;
+import org.koreait.dto.Article;
 import org.koreait.service.ArticleService;
-import org.koreait.util.DBUtil;
-import org.koreait.util.SecSql;
 
 import java.sql.Connection;
 import java.util.List;
