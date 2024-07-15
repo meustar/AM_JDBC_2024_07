@@ -36,7 +36,7 @@ public class App {
             try {
                 conn = DriverManager.getConnection(url, "root", "");
 
-                int actionResult = doAction(conn, sc, cmd);
+                int actionResult = action(conn, sc, cmd);
 
                 if (actionResult == -1) {
                     System.out.println("== 프로그램 종료 ==");
@@ -62,7 +62,7 @@ public class App {
         }
     }
 
-    private int doAction(Connection conn, Scanner sc, String cmd) {
+    private int action(Connection conn, Scanner sc, String cmd) {
 
         if (cmd.equals("exit")) {
             return -1;
