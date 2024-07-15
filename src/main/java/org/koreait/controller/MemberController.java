@@ -16,7 +16,7 @@ public class MemberController {
     public MemberController(Connection conn, Scanner sc) {
         this.conn = conn;
         this.sc = sc;
-        this.memberService = new MemberService();
+        this.memberService = new MemberService(conn);
     }
 
     public void doJoin() {
@@ -34,13 +34,6 @@ public class MemberController {
                 System.out.println("아이디를 정확하게 입력해주세요.");
                 continue;
             }
-//            SecSql sql = new SecSql();
-//
-//            sql.append("SELECT COUNT(*) > 0");
-//            sql.append("FROM `member`");
-//            sql.append("WHERE loginId = ?;", loginId);
-//
-//            boolean isLogindIdDup = DBUtil.selectRowBooleanValue(conn, sql);
 
             boolean isLoginIdDup = memberService.isLoginIdDup(conn, loginId);
 
@@ -89,16 +82,9 @@ public class MemberController {
             }
             break;
         }
-        SecSql sql = new SecSql();
 
-        sql.append("INSERT INTO `member`");
-        sql.append("SET regDate = NOW(),");
-        sql.append("updateDate = NOW(),");
-        sql.append("loginId = ?,", loginId);
-        sql.append("loginPw = ?,", loginPw);
-        sql.append("name = ?;", name);
 
-        int id = DBUtil.insert(conn, sql);
+        int id = memberService.doJoin(loginId, loginPw, name);
 
         System.out.println(id + "번 회원이 생성되었습니다.");
     }
