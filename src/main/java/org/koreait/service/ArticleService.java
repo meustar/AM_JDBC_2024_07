@@ -5,7 +5,6 @@ import org.koreait.dao.ArticleDao;
 import org.koreait.dto.Article;
 
 import java.util.List;
-import java.util.Map;
 
 public class ArticleService {
 
@@ -16,15 +15,15 @@ public class ArticleService {
         this.articleDao = Container.articleDao;
     }
 
-    public int doWrite(String title, String content) {
-        return articleDao.doWrite(title, content);
+    public int doWrite(int memberId, String title, String content) {
+        return articleDao.doWrite(memberId, title, content);
     }
 
     public List<Article> getArticles() {
         return articleDao.getArticles();
     }
 
-    public Map<String, Object> getArticleById(int id) {
+    public Article getArticleById(int id) {
         return articleDao.getArticleById(id);
     }
 

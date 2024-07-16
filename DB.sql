@@ -21,20 +21,31 @@ CREATE TABLE `member`(
                          `name` CHAR(100) NOT NULL
 );
 
-SELECT *
-FROM article;
+ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER updateDate;
 
-SELECT *
-FROM `member`;
-
-
-#################################################################################
+## 회원 테스트 데이터 생성
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
-title = CONCAT('제목', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
-content = CONCAT('내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
+memberId = 1,
+title = '제목1',
+content = '내용1';
 
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+title = '제목2',
+content = '내용2';
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+title = '제목3',
+content = '내용3';
+
+## 회원 테스트 데이터 생성
 INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
@@ -49,7 +60,27 @@ loginId = 'test2',
 loginPw = 'test2',
 `name` = '홍길동';
 
-# select에 조건식이 true 일 경우 반환값은 1. flase 일 경우 0
+## 게시글 테스트 데이터 대량 생성
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = CONCAT('제목', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
+content = CONCAT('내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
+
+SELECT *
+FROM article;
+
+SELECT *
+FROM `member`;
+
+###############################################################################
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = 'abc', content= 'abcd';
+
+
 SELECT COUNT(*) > 0
 FROM `member`
 WHERE loginId = 'test2';
@@ -58,19 +89,18 @@ SELECT COUNT(*) > 0
 FROM `member`
 WHERE loginId = 'test3';
 
+SELECT 1 + 1;
+SELECT 1 > 1;
+
 SELECT NOW();
+
 SELECT '제목1';
-SELECT CONCAT('제목',' 1'); #문자열 더하기.
-SELECT RAND();              #0부터~ 1까지의 랜덤
-SELECT RAND() * 10;         #0부터 10까지의 랜덤
-SELECT SUBSTRING(RAND() * 10 FROM 1 FOR 1);
+
+SELECT CONCAT('제목',' 1');
+
+SELECT SUBSTRING(RAND() * 1000 FROM 1 FOR 2);
+
+
 
 SELECT *
-FROM article
-ORDER BY id DESC;
-
-UPDATE article
-SET updateDate = NOW(),
-    title = 'title1',
-    content = 'content1'
-WHERE id = 4;
+FROM article;

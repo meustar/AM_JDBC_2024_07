@@ -40,5 +40,7 @@ public class Container {
 
         articleController = new ArticleController();
         memberController = new MemberController();
+        // 만들어 지면서 사용해야 되서.
+        // DAO먼저 역순으로 생성해야한다.
     }
 }
