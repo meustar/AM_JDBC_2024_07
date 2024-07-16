@@ -31,7 +31,7 @@ public class ArticleDao {
 
         sql.append("SELECT A.*, M.name");
         sql.append("FROM article A");
-        sql.append("INNER JOIN 'member' M");
+        sql.append("INNER JOIN `member` M");
         sql.append("ON A.memberId = M.id");
         sql.append("ORDER BY id DESC");
 
