@@ -32,10 +32,28 @@ public class ArticleController {
         System.out.println(id + "번 글이 작성되었습니다.");
     }
 
-    public void showList() {
+    public void showList(String cmd) {
         System.out.println("== list ==");
 
-        List<Article> articles = articleService.getArticles();
+//        List<Article> articles = articleService.getArticles(); // 전체 글 가져오기
+
+        String[] cmdBits = cmd.split(" ");
+
+        int page = 1;
+        String searchKeyword = null;
+
+        //
+        if (cmdBits.length >= 3) {
+            page = Integer.parseInt(cmdBits[2]);
+        }
+        //
+        if (cmdBits.length >= 4) {
+            searchKeyword = cmdBits[3];
+        }
+        //
+        int itemsInAPage = 10;
+
+        List<Article> articles = articleService.getForPrintArticles(page, itemsInAPage, searchKeyword);
 
         if (articles.size() == 0 ) {
             System.out.println("게시글이 없습니다");
