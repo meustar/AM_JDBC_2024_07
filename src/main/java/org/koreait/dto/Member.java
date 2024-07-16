@@ -10,6 +10,18 @@ public class Member {
     private String loginPw;
     private String name;
 
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", regDate='" + regDate + '\'' +
+                ", updateDate='" + updateDate + '\'' +
+                ", loginId='" + loginId + '\'' +
+                ", loginPw='" + loginPw + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public Member(Map<String, Object> articleMap) {
         this.id = (int) articleMap.get("id");
         this.regDate = (String) articleMap.get("regDate");

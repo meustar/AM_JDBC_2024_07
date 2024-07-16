@@ -1,32 +1,26 @@
 package org.koreait.controller;
 
+import org.koreait.container.Container;
 import org.koreait.dto.Article;
 import org.koreait.service.ArticleService;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class ArticleController {
 
-    Connection conn;
-    Scanner sc;
-
     private ArticleService articleService;
 
-    public ArticleController(Connection conn, Scanner sc) {
-        this.conn = conn;
-        this.sc = sc;
-        this.articleService = new ArticleService(conn);
+    public ArticleController() {
+        this.articleService = Container.articleService;
     }
 
     public void doWrite() {
         System.out.println("== write ==");
         System.out.print("title: ");
-        String title = sc.nextLine();
+        String title = Container.sc.nextLine();
         System.out.print("content: ");
-        String content = sc.nextLine();
+        String content = Container.sc.nextLine();
 
         int id = articleService.doWrite(title, content);
 
@@ -69,9 +63,9 @@ public class ArticleController {
 
         System.out.println("== modify ==");
         System.out.print("새 제목 : ");
-        String title = sc.nextLine();
+        String title = Container.sc.nextLine();
         System.out.print("새 내용 : ");
-        String content = sc.nextLine();
+        String content = Container.sc.nextLine();
 
         articleService.doUpdate(id, title, content);
 

@@ -1,20 +1,19 @@
 package org.koreait.service;
 
-import org.koreait.dto.Member;
+import org.koreait.container.Container;
 import org.koreait.dao.MemberDao;
-
-import java.sql.Connection;
+import org.koreait.dto.Member;
 
 public class MemberService {
 
     private MemberDao memberDao;
 
-    public MemberService(Connection conn) {
-        this.memberDao = new MemberDao(conn);
+    public MemberService() {
+        this.memberDao = Container.memberDao;
     }
 
-    public boolean isLoginIdDup(Connection conn, String loginId) {
-        return memberDao.isLoginIdDup(conn, loginId);
+    public boolean isLoginIdDup(String loginId) {
+        return memberDao.isLoginIdDup(loginId);
     }
 
     public int doJoin(String loginId, String loginPw, String name) {

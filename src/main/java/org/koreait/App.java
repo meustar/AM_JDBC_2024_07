@@ -1,5 +1,6 @@
 package org.koreait;
 
+import org.koreait.container.Container;
 import org.koreait.controller.ArticleController;
 import org.koreait.controller.MemberController;
 
@@ -10,15 +11,15 @@ import java.util.Scanner;
 
 public class App {
 
-    Scanner sc;
+    private Scanner sc;
 
-    public App(Scanner sc) {
-        this.sc = sc;
+    public App() {
+        Container.init();
+        this.sc = Container.sc;
     }
 
     public void run() {
         System.out.println("== 프로그램 실행 ==");
-        Scanner sc = new Scanner(System.in);
 
         while (true) {
             System.out.print("명령어: ");
@@ -36,8 +37,9 @@ public class App {
 
             try {
                 conn = DriverManager.getConnection(url, "root", "");
+                Container.conn = conn;
 
-                int actionResult = action(conn, sc, cmd);
+                int actionResult = action(cmd);
 
                 if (actionResult == -1) {
                     System.out.println("== 프로그램 종료 ==");
@@ -63,14 +65,14 @@ public class App {
         }
     }
 
-    private int action(Connection conn, Scanner sc, String cmd) {
+    private int action(String cmd) {
 
         if (cmd.equals("exit")) {
             return -1;
         }
 
-        MemberController memberController = new MemberController(conn, sc);
-        ArticleController articleController = new ArticleController(conn, sc);
+        MemberController memberController = Container.memberController;
+        ArticleController articleController = Container.articleController;
 
         if (cmd.equals("member join")) {
             memberController.doJoin();
